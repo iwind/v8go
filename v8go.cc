@@ -606,13 +606,29 @@ void ContextFree(ContextPtr ctx) {
     val->ptr.Reset();
     delete val;
   }
+  ctx->vals.clear();
 
   for (m_unboundScript* us : ctx->unboundScripts) {
     us->ptr.Reset();
     delete us;
   }
+  ctx->unboundScripts.clear();
 
   delete ctx;
+}
+
+void ContextCleanup(ContextPtr ctx) {
+  for (m_value* val : ctx->vals) {
+    val->ptr.Reset();
+    delete val;
+  }
+  ctx->vals.clear();
+
+  for (m_unboundScript* us : ctx->unboundScripts) {
+    us->ptr.Reset();
+    delete us;
+  }
+  ctx->unboundScripts.clear();
 }
 
 RtnValue RunScript(ContextPtr ctx, const char* source, const char* origin) {

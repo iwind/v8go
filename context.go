@@ -122,6 +122,10 @@ func (c *Context) Close() {
 	c.ptr = nil
 }
 
+func (c *Context) Cleanup() {
+	C.ContextCleanup(c.ptr)
+}
+
 func (c *Context) register() {
 	ctxMutex.Lock()
 	r := ctxRegistry[c.ref]
